@@ -1,4 +1,4 @@
-import { int, mysqlEnum, mysqlTable, text, timestamp, varchar } from "drizzle-orm/mysql-core";
+import { int, mysqlEnum, mysqlTable, text, timestamp, uniqueIndex, varchar } from "drizzle-orm/mysql-core";
 
 /** Core account table supplied by the Manus OAuth scaffold. */
 export const users = mysqlTable("users", {
@@ -62,9 +62,48 @@ export const userAchievements = mysqlTable("userAchievements", {
   earnedAt: timestamp("earnedAt").defaultNow().notNull(),
 });
 
+/** One authenticated, server-seeded run for an invitation competition event. */
+export const eventRuns = mysqlTable("eventRuns", {
+  id: varchar("id", { length: 64 }).primaryKey(),
+  eventKey: varchar("eventKey", { length: 80 }).notNull(),
+  userId: int("userId").notNull(),
+  seed: varchar("seed", { length: 96 }).notNull(),
+  currentStage: int("currentStage").default(1).notNull(),
+  attemptsInStage: int("attemptsInStage").default(0).notNull(),
+  status: mysqlEnum("status", ["active", "completed", "failed"]).default("active").notNull(),
+  failedReason: varchar("failedReason", { length: 48 }),
+  startedAt: timestamp("startedAt").defaultNow().notNull(),
+  completedAt: timestamp("completedAt"),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => [uniqueIndex("eventRuns_event_user_unique").on(table.eventKey, table.userId)]);
+
+/** Finite invitation reservations. Student IDs are collected only after a place is secured. */
+export const eventClaims = mysqlTable("eventClaims", {
+  id: int("id").autoincrement().primaryKey(),
+  eventKey: varchar("eventKey", { length: 80 }).notNull(),
+  runId: varchar("runId", { length: 64 }).notNull(),
+  userId: int("userId").notNull(),
+  studentId: varchar("studentId", { length: 64 }),
+  status: mysqlEnum("status", ["reserved", "submitted"]).default("reserved").notNull(),
+  reservedAt: timestamp("reservedAt").defaultNow().notNull(),
+  consentedAt: timestamp("consentedAt"),
+}, (table) => [
+  uniqueIndex("eventClaims_run_unique").on(table.runId),
+  uniqueIndex("eventClaims_event_student_unique").on(table.eventKey, table.studentId),
+]);
+
+/** Atomic counter prevents more than ten invitation positions being reserved. */
+export const eventCounters = mysqlTable("eventCounters", {
+  eventKey: varchar("eventKey", { length: 80 }).primaryKey(),
+  claimedCount: int("claimedCount").default(0).notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
 export type GameMission = typeof gameMissions.$inferSelect;
 export type InsertGameMission = typeof gameMissions.$inferInsert;
 export type MissionAttempt = typeof missionAttempts.$inferSelect;
 export type GameAchievement = typeof gameAchievements.$inferSelect;
+export type EventRun = typeof eventRuns.$inferSelect;
+export type EventClaim = typeof eventClaims.$inferSelect;

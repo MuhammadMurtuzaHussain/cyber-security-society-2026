@@ -15,6 +15,13 @@
       "when": 1788948458934,
       "tag": "0001_blushing_thaddeus_ross",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1788967203442,
+      "tag": "0002_useful_ulik",
+      "breakpoints": true
     }
   ]
 }

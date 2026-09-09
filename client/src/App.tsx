@@ -8,6 +8,7 @@ import Achievements from "./pages/Achievements";
 import Admin from "./pages/Admin";
 import Dashboard from "./pages/Dashboard";
 import Home from "./pages/Home";
+import IsacaEvent from "./pages/IsacaEvent";
 import Leaderboard from "./pages/Leaderboard";
 import MissionPlay from "./pages/MissionPlay";
 import Missions from "./pages/Missions";
@@ -19,6 +20,7 @@ function Router() {
     <Route path="/" component={Home} />
     <Route path="/dashboard" component={Dashboard} />
     <Route path="/missions" component={Missions} />
+    <Route path="/missions/isaca-invitation" component={IsacaEvent} />
     <Route path="/missions/:id" component={MissionPlay} />
     <Route path="/leaderboard" component={Leaderboard} />
     <Route path="/achievements" component={Achievements} />

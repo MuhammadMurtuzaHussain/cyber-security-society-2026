@@ -1,4 +1,4 @@
-export type MissionCategory = "Password Security" | "Social Engineering" | "Incident Investigation" | "Web Security" | "Multiple Skills";
+export type MissionCategory = "Password Security" | "Social Engineering" | "Incident Investigation" | "Web Security" | "Multiple Skills" | "GRC & Assurance";
 export type MissionStatus = "available" | "locked" | "complete";
 
 export type Mission = {
@@ -117,6 +117,25 @@ export const missions: Mission[] = [
       defenders: "Keep tested backups, practise incident plans, protect accounts with MFA, and isolate affected systems quickly.",
     },
   },
+  {
+    id: "isaca-invitation",
+    code: "EVENT // LIMITED TIME",
+    title: "ISACA Invitation: The Fifteen-Minute Control Room",
+    eyebrow: "GRC / AUDIT / RISK EVENT",
+    difficulty: "EXPERT",
+    category: "GRC & Assurance",
+    xp: 1000,
+    estimatedTime: "15 min hard limit",
+    description: "A limited-time, server-verified fictional challenge across governance, audit, risk, resilience, secure design and incident response. The first 10 valid finishers secure an ISACA invitation slot.",
+    skills: ["GRC", "Audit", "Risk", "IAM", "Secure Design", "IR"],
+    status: "available",
+    learning: {
+      happened: "You made and justified a sequence of governance, security, risk and assurance decisions under time pressure.",
+      concept: "Effective cyber resilience connects controls, risk appetite, evidence, technical design and accountable decision-making.",
+      attackers: "Complex incidents often exploit gaps between people, processes, evidence, technology and governance—not only a single technical flaw.",
+      defenders: "Strong organisations connect risk ownership, control testing, secure engineering, monitoring, recovery objectives and clear escalation paths.",
+    },
+  },
 ];
 
 export type Achievement = {
@@ -133,6 +152,7 @@ export const achievements: Achievement[] = [
   { id: "digital-detective", icon: "⌕", title: "Digital Detective", description: "Closed an incident casefile.", requirement: "Mission 03" },
   { id: "web-explorer", icon: "◇", title: "Web Explorer", description: "Captured a flag in the local web lab.", requirement: "Mission 04" },
   { id: "ctf-survivor", icon: "✦", title: "CTF Survivor", description: "Stopped the cyber escape room simulation.", requirement: "Mission 05" },
+  { id: "isaca-control-room", icon: "◈", title: "Control Room Survivor", description: "Completed the ISACA fifteen-minute control room event.", requirement: "ISACA Event" },
   { id: "signal-reader", icon: "⌁", title: "Signal Reader", description: "Reviewed every evidence tab.", requirement: "Investigation" },
   { id: "fast-learner", icon: "↗", title: "Fast Learner", description: "Earned 2,000 total XP.", requirement: "Progression" },
   { id: "curious-mind", icon: "?", title: "Curious Mind", description: "Used a hint to move forward.", requirement: "Discovery" },

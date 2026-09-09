@@ -2,14 +2,15 @@ import { describe, expect, it } from "vitest";
 import { achievements, levelFromXp, missionById, missions, titleForLevel } from "./game-data";
 
 describe("Cyber Security Society game catalog", () => {
-  it("provides five data-driven fictional missions", () => {
-    expect(missions).toHaveLength(5);
+  it("provides six data-driven fictional missions", () => {
+    expect(missions).toHaveLength(6);
     expect(missions.map((mission) => mission.id)).toEqual([
       "guess-my-password",
       "catch-the-phish",
       "who-hacked-us",
       "broken-website",
       "escape-room",
+      "isaca-invitation",
     ]);
     missions.forEach((mission) => {
       expect(mission.description).toMatch(/fictional|Sarah|student|ACME|ransomware/i);

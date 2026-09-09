@@ -17,3 +17,9 @@ Gameplay validation was performed in the browser on the password mission. Enteri
 The phishing mission's error path was also verified. Classifying the safe University Library message as phishing retained the message state and surfaced specific, non-punitive corrective feedback that directs the player to review sender, destination, urgency, and credential-request evidence.
 
 The phishing completion path was then verified by opening the simulated IT Support email, examining its lookalike domain, urgency, credential request, and destination, then classifying it as phishing. The app awarded 150 XP (1,520 to 1,670) and displayed the expected social-engineering learning screen.
+
+## ISACA Event Extension
+
+The limited-time ISACA Invitation route was checked at desktop (1280×720) and mobile (390×844). The event card is discoverable in Mission Control; the entry screen cleanly presents the 15-minute limit, three attempts per stage, no-hint rule, server verification, deadline, first-ten capacity, and the GRC/audit/risk domain coverage. The mobile layout keeps the deadline, mission briefing, event rules, and navigation readable without horizontal overflow.
+
+The unauthenticated access guard was confirmed in the browser: the event presents a “Sign in to compete” control rather than starting or exposing any stage. Unit tests verify fifteen numbered seeded stages, unique cross-seed tags, server-only answers, response normalisation, the fifteen-minute deadline, and the Saturday 12 September 2026 17:00 Europe/London cutoff. The production build, TypeScript check, and all 10 unit tests pass.
