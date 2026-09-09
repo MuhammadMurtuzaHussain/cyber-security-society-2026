@@ -1,33 +1,27 @@
-import { useAuth } from "@/_core/hooks/useAuth";
-import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
-import { Streamdown } from 'streamdown';
+import { ArrowRight, CheckCircle2, ChevronDown, Crosshair, Fingerprint, ShieldCheck, Sparkles, TerminalSquare } from "lucide-react";
+import { Link } from "wouter";
+import { BrandMark } from "@/components/GameLayout";
 
-/**
- * All content in this page are only for example, replace with your own feature implementation
- * When building pages, remember your instructions in Frontend Workflow, Frontend Best Practices, Design Guide and Common Pitfalls
- */
+const benefits = [
+  ["Learn by doing", "Explore fictional environments and discover the clue yourself."],
+  ["Beginner-friendly", "No command line knowledge, coding, or confidence required."],
+  ["Real concepts", "Practise the defensive thinking behind passwords, phishing, and incident response."],
+  ["Progress with purpose", "XP, skills, badges, and a clear path from recruit to operator."],
+];
+
 export default function Home() {
-  // The useAuth hook provides authentication state.
-  // To implement login/logout, call logout(), or start login from an event
-  // handler: onClick={() => startLogin()} (imported from "@/const"). Never call
-  // startLogin() during render (no href={startLogin()}) — it mints a one-time
-  // nonce cookie and must run only at the moment of navigation.
-  let { user, loading, error, isAuthenticated, logout } = useAuth();
+  return <div className="min-h-screen overflow-hidden bg-[#070b14] text-slate-100"><div className="fixed inset-0 cyber-grid opacity-80" /><div className="relative">
+    <header className="container flex h-20 items-center justify-between"><BrandMark /><nav className="hidden items-center gap-7 text-sm text-slate-400 md:flex"><a href="#how-it-works" className="transition hover:text-cyan-200">How it works</a><Link href="/missions" className="transition hover:text-cyan-200">Missions</Link><Link href="/leaderboard" className="transition hover:text-cyan-200">Leaderboard</Link></nav><Link href="/dashboard" className="rounded-full border border-white/[.12] bg-white/[.05] px-4 py-2 text-xs font-semibold text-white transition hover:border-cyan-300/45 hover:bg-cyan-300/10">Agent login <ArrowRight className="ml-1 inline h-3.5 w-3.5" /></Link></header>
 
-  // If theme is switchable in App.tsx, we can implement theme toggling like this:
-  // const { theme, toggleTheme } = useTheme();
+    <main>
+      <section className="container grid min-h-[620px] items-center gap-12 py-12 lg:grid-cols-[1.05fr_.95fr] lg:py-20"><div className="relative z-10"><div className="inline-flex items-center gap-2 rounded-full border border-cyan-300/20 bg-cyan-300/[.07] px-3 py-1.5 font-mono text-[10px] tracking-[.17em] text-cyan-200"><i className="h-1.5 w-1.5 rounded-full bg-cyan-300 pulse-dot" /> UNIVERSITY CYBER LAB // ONLINE</div><h1 className="mt-7 max-w-3xl font-display text-5xl font-black leading-[.93] tracking-[-.055em] text-white sm:text-6xl lg:text-7xl">THINK LIKE AN <span className="text-gradient">ATTACKER.</span><br />LEARN LIKE A <span className="text-violet-300">DEFENDER.</span></h1><p className="mt-7 max-w-xl text-base leading-7 text-slate-400 sm:text-lg">Forget boring cybersecurity quizzes. Investigate breaches, uncover vulnerabilities, crack puzzles, analyse suspicious activity and complete cyber missions.</p><div className="mt-8 flex flex-col gap-3 sm:flex-row"><Link href="/missions/guess-my-password" className="group inline-flex items-center justify-center gap-2 rounded-xl bg-cyan-300 px-5 py-3.5 text-sm font-bold text-[#06111d] transition hover:bg-cyan-200"><Crosshair className="h-4 w-4" /> START YOUR FIRST MISSION <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" /></Link><Link href="/missions" className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/[.13] bg-white/[.04] px-5 py-3.5 text-sm font-semibold text-white transition hover:bg-white/[.09]">EXPLORE MISSIONS <ChevronDown className="h-4 w-4" /></Link></div><p className="mt-4 font-mono text-[10px] tracking-[.15em] text-slate-500">SAFE, LOCAL &amp; FICTIONAL SIMULATIONS ONLY</p></div>
+        <div className="relative mx-auto w-full max-w-[540px]" aria-label="Cyber operations dashboard preview"><div className="absolute -inset-10 rounded-full bg-cyan-400/[.12] blur-3xl" /><div className="relative overflow-hidden rounded-[26px] border border-white/[.14] bg-[#0b1220]/95 p-4 shadow-[0_35px_90px_rgba(0,0,0,.5)]"><div className="mb-4 flex items-center justify-between border-b border-white/[.08] pb-4"><div className="flex items-center gap-2"><span className="grid h-8 w-8 place-items-center rounded-lg bg-cyan-300/10 text-cyan-200"><TerminalSquare className="h-4 w-4" /></span><div><p className="font-mono text-[9px] tracking-[.17em] text-slate-500">CYBEROPS / RECRUIT_01</p><p className="text-xs font-semibold text-white">Mission control</p></div></div><span className="rounded-full border border-emerald-300/20 bg-emerald-300/[.08] px-2.5 py-1 font-mono text-[9px] text-emerald-300">SYSTEMS LIVE</span></div><div className="grid grid-cols-2 gap-3"><div className="col-span-2 rounded-xl border border-cyan-300/15 bg-gradient-to-r from-cyan-300/[.09] to-violet-400/[.06] p-4"><p className="font-mono text-[10px] tracking-[.16em] text-cyan-300">WELCOME, RECRUIT</p><p className="mt-1 text-lg font-bold text-white">Your first mission awaits.</p><div className="mt-4 h-1.5 overflow-hidden rounded-full bg-white/[.08]"><div className="h-full w-[72%] rounded-full bg-gradient-to-r from-cyan-300 to-violet-400" /></div><p className="mt-2 font-mono text-[10px] text-slate-400">CLEARANCE: LEVEL 03 · 72% TO NEXT LEVEL</p></div>{[["NETWORK", "ONLINE", "text-emerald-300"], ["SECURITY", "ACTIVE", "text-cyan-300"], ["THREATS", "03", "text-amber-300"], ["AGENTS", "127", "text-violet-300"]].map(([label, value, color]) => <div key={label} className="rounded-xl border border-white/[.07] bg-white/[.025] p-3"><p className="font-mono text-[9px] tracking-[.15em] text-slate-500">{label}</p><p className={`mt-2 font-mono text-sm font-semibold ${color}`}>{value}</p></div>)}</div><div className="mt-3 rounded-xl border border-white/[.07] bg-[#050a13] p-3 font-mono text-[10px] leading-5 text-slate-400"><p><span className="text-violet-300">agent@cybersociety:~$</span> open mission_01</p><p className="text-cyan-300">Accessing safe simulation...</p><p>Hint: Sarah's profile has the answer.</p></div></div></div>
+      </section>
 
-  return (
-    <div className="min-h-screen flex flex-col">
-      <main>
-        {/* Example: lucide-react for icons */}
-        <Loader2 className="animate-spin" />
-        Example Page
-        {/* Example: Streamdown for markdown rendering */}
-        <Streamdown>Any **markdown** content</Streamdown>
-        <Button variant="default">Example Button</Button>
-      </main>
-    </div>
-  );
+      <section id="how-it-works" className="border-y border-white/[.07] bg-[#0a1020]/75 py-16"><div className="container"><div className="grid gap-8 lg:grid-cols-[.78fr_1.22fr]"><div><p className="font-mono text-[10px] tracking-[.2em] text-cyan-300">THE FIELD GUIDE</p><h2 className="mt-3 max-w-sm font-display text-3xl font-bold tracking-[-.035em] text-white">No lectures. Just <span className="text-violet-300">curiosity.</span></h2><p className="mt-4 max-w-sm text-sm leading-6 text-slate-400">Every mission starts with a situation, not a multiple-choice question. Follow the evidence, make a decision, then unpack what happened.</p></div><div className="grid gap-3 sm:grid-cols-2">{benefits.map(([title, text], index) => <div key={title} className="rounded-2xl border border-white/[.08] bg-white/[.025] p-5 transition hover:border-cyan-300/25 hover:bg-white/[.04]"><span className="font-mono text-xs text-cyan-300">0{index + 1}</span><h3 className="mt-5 font-semibold text-white">{title}</h3><p className="mt-2 text-sm leading-6 text-slate-400">{text}</p></div>)}</div></div></div></section>
+
+      <section className="container grid gap-8 py-16 lg:grid-cols-3"><div className="rounded-2xl border border-white/[.08] bg-white/[.025] p-6"><Fingerprint className="h-5 w-5 text-cyan-300" /><h3 className="mt-8 text-lg font-bold text-white">Follow the signals</h3><p className="mt-2 text-sm leading-6 text-slate-400">Look at profiles, email details, login logs and fictional apps. The clues are already in the environment.</p></div><div className="rounded-2xl border border-white/[.08] bg-white/[.025] p-6"><ShieldCheck className="h-5 w-5 text-violet-300" /><h3 className="mt-8 text-lg font-bold text-white">Learn the why</h3><p className="mt-2 text-sm leading-6 text-slate-400">After each mission, discover the real defensive concept without getting buried in jargon.</p></div><div className="rounded-2xl border border-white/[.08] bg-white/[.025] p-6"><Sparkles className="h-5 w-5 text-amber-300" /><h3 className="mt-8 text-lg font-bold text-white">Build your agency</h3><p className="mt-2 text-sm leading-6 text-slate-400">Earn experience, unlock badges and see your skills grow—one small win at a time.</p></div></section>
+    </main>
+    <footer className="border-t border-white/[.07] py-8 text-center font-mono text-[10px] tracking-[.16em] text-slate-500">CYBER SECURITY SOCIETY · ALL MISSIONS ARE FICTIONAL &amp; SANDBOXED</footer>
+  </div></div>;
 }
