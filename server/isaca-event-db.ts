@@ -38,6 +38,27 @@ export async function createEventRun(userId: number, seed: string, runId: string
   return getEventRun(userId);
 }
 
+/**
+ * Reuses the student's event record after a failed run, but replaces the seed,
+ * identifier, clock, stage and attempts so the next try is a complete fresh case.
+ * Completed runs are never reset and therefore remain tied to any invitation claim.
+ */
+export async function restartFailedEventRun(userId: number, seed: string, runId: string) {
+  const db = await requireDb();
+  const result = await db.update(eventRuns).set({
+    id: runId,
+    seed,
+    currentStage: 1,
+    attemptsInStage: 0,
+    status: "active",
+    failedReason: null,
+    startedAt: new Date(),
+    completedAt: null,
+    updatedAt: new Date(),
+  }).where(and(eq(eventRuns.eventKey, ISACA_EVENT.key), eq(eventRuns.userId, userId), eq(eventRuns.status, "failed")));
+  return affectedRows(result) === 1;
+}
+
 export async function expireEventRun(runId: string, reason: "time_expired" | "event_closed") {
   const db = await requireDb();
   await db.update(eventRuns).set({ status: "failed", failedReason: reason, updatedAt: new Date() }).where(and(eq(eventRuns.id, runId), eq(eventRuns.status, "active")));

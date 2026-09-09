@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { buildEventStages, getEventCloseReason, getRunDeadline, ISACA_EVENT, isRunActive, normaliseEventAnswer, toPublicStage } from "./isaca-event-engine";
+import { buildEventStages, getEventCloseReason, getRunDeadline, ISACA_EVENT, isEventRestartable, isRunActive, normaliseEventAnswer, toPublicStage } from "./isaca-event-engine";
 
 describe("ISACA invitation event engine", () => {
   it("creates fifteen sequential, tagged stages", () => {
@@ -40,5 +40,13 @@ describe("ISACA invitation event engine", () => {
     expect(getRunDeadline(lateStart)).toBe(Date.UTC(2026, 8, 12, 16, 0, 0));
     expect(getEventCloseReason(Date.UTC(2026, 8, 12, 15, 59, 59))).toBeNull();
     expect(getEventCloseReason(ISACA_EVENT.deadlineMs)).toBe("event_closed");
+  });
+
+  it("permits a fresh run only after a failed attempt and before event close", () => {
+    const beforeClose = Date.UTC(2026, 8, 12, 15, 59, 59);
+    expect(isEventRestartable("failed", beforeClose)).toBe(true);
+    expect(isEventRestartable("active", beforeClose)).toBe(false);
+    expect(isEventRestartable("completed", beforeClose)).toBe(false);
+    expect(isEventRestartable("failed", ISACA_EVENT.deadlineMs)).toBe(false);
   });
 });

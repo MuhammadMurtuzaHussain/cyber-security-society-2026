@@ -59,6 +59,11 @@ export function getEventCloseReason(now = Date.now()) {
   return null;
 }
 
+/** Failed runs may be restarted with a new seed while the invitation window is open. */
+export function isEventRestartable(status: "active" | "completed" | "failed", now = Date.now()) {
+  return status === "failed" && !getEventCloseReason(now);
+}
+
 export function getRunDeadline(startedAt: Date | number) {
   const start = startedAt instanceof Date ? startedAt.getTime() : startedAt;
   return Math.min(start + ISACA_EVENT.durationMs, ISACA_EVENT.deadlineMs);

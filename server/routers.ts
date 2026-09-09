@@ -4,8 +4,8 @@ import { z } from "zod";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { adminProcedure, protectedProcedure, publicProcedure, router } from "./_core/trpc";
 import { systemRouter } from "./_core/systemRouter";
-import { getAdminClaims, getClaimedSlotCount, getEventClaim, getEventRun, createEventRun, expireEventRun, advanceEventRun, recordEventAttempt, completeEventRunAndReserveSlot, submitStudentId } from "./isaca-event-db";
-import { buildEventStages, getEventCloseReason, getRunDeadline, ISACA_EVENT, isRunActive, normaliseEventAnswer, toPublicStage } from "./isaca-event-engine";
+import { getAdminClaims, getClaimedSlotCount, getEventClaim, getEventRun, createEventRun, restartFailedEventRun, expireEventRun, advanceEventRun, recordEventAttempt, completeEventRunAndReserveSlot, submitStudentId } from "./isaca-event-db";
+import { buildEventStages, getEventCloseReason, getRunDeadline, ISACA_EVENT, isEventRestartable, isRunActive, normaliseEventAnswer, toPublicStage } from "./isaca-event-engine";
 
 function publicRun(run: NonNullable<Awaited<ReturnType<typeof getEventRun>>>) {
   const stages = buildEventStages(run.seed);
@@ -20,14 +20,6 @@ function publicRun(run: NonNullable<Awaited<ReturnType<typeof getEventRun>>>) {
     deadlineAt: new Date(getRunDeadline(run.startedAt)),
     stage: stage ? toPublicStage(stage) : null,
   };
-}
-
-async function getOrCreateActiveRun(userId: number) {
-  const existing = await getEventRun(userId);
-  if (existing) return existing;
-  const created = await createEventRun(userId, randomUUID(), randomUUID());
-  if (!created) throw new Error("Unable to create the competition run.");
-  return created;
 }
 
 export const appRouter = router({
@@ -56,7 +48,7 @@ export const appRouter = router({
 
     start: protectedProcedure.mutation(async ({ ctx }) => {
       const closeReason = getEventCloseReason();
-      const existing = await getEventRun(ctx.user.id);
+      let existing = await getEventRun(ctx.user.id);
       if (closeReason) {
         if (!existing) return { outcome: "event_closed" as const, run: null, claim: null };
         if (existing.status === "active") await expireEventRun(existing.id, "event_closed");
@@ -64,14 +56,25 @@ export const appRouter = router({
         const claim = await getEventClaim(ctx.user.id);
         return { outcome: "ready" as const, run: closedRun ? publicRun(closedRun) : null, claim: claim ? { status: claim.status, studentIdSubmitted: Boolean(claim.studentId) } : null };
       }
-      const run = await getOrCreateActiveRun(ctx.user.id);
-      if (run.status === "active" && !isRunActive(run.startedAt)) {
-        await expireEventRun(run.id, "time_expired");
-        const expired = await getEventRun(ctx.user.id);
-        return { outcome: "expired" as const, run: expired ? publicRun(expired) : null, claim: null };
+
+      if (existing?.status === "active" && !isRunActive(existing.startedAt)) {
+        await expireEventRun(existing.id, "time_expired");
+        existing = await getEventRun(ctx.user.id);
       }
+
+      let restarted = false;
+      if (existing && isEventRestartable(existing.status)) {
+        restarted = await restartFailedEventRun(ctx.user.id, randomUUID(), randomUUID());
+        existing = await getEventRun(ctx.user.id);
+      }
+
+      if (!existing) {
+        existing = await createEventRun(ctx.user.id, randomUUID(), randomUUID());
+      }
+      if (!existing) throw new Error("Unable to create the competition run.");
+
       const claim = await getEventClaim(ctx.user.id);
-      return { outcome: "ready" as const, run: publicRun(run), claim: claim ? { status: claim.status, studentIdSubmitted: Boolean(claim.studentId) } : null };
+      return { outcome: "ready" as const, restarted, run: publicRun(existing), claim: claim ? { status: claim.status, studentIdSubmitted: Boolean(claim.studentId) } : null };
     }),
 
     submitStage: protectedProcedure.input(z.object({ answer: z.string().min(1).max(256) })).mutation(async ({ ctx, input }) => {
