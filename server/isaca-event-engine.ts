@@ -2,9 +2,9 @@ import { createHash } from "crypto";
 
 export const ISACA_EVENT = {
   key: "isaca-invite-september-2026",
-  title: "ISACA Invitation: The Fifteen-Minute Control Room",
+  title: "ISACA Invitation: The One-Hour Control Room",
   deadlineMs: Date.UTC(2026, 8, 12, 16, 0, 0), // 17:00 Europe/London (BST)
-  durationMs: 15 * 60 * 1000,
+  durationMs: 60 * 60 * 1000,
   maxAttemptsPerStage: 3,
   maxInvitationSlots: 10,
   stageCount: 15,
