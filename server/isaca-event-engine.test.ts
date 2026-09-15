@@ -31,22 +31,21 @@ describe("ISACA invitation event engine", () => {
     expect(normaliseEventAnswer("  SeV-2 : CASE-ABC123 ")).toBe("sev-2:case-abc123");
   });
 
-  it("enforces the one-hour run deadline and Saturday event cutoff", () => {
+  it("enforces the one-hour run deadline while keeping the event permanently open", () => {
     const start = Date.UTC(2026, 8, 12, 12, 0, 0);
     expect(getRunDeadline(start)).toBe(Date.UTC(2026, 8, 12, 13, 0, 0));
     expect(isRunActive(start, Date.UTC(2026, 8, 12, 12, 59, 59))).toBe(true);
     expect(isRunActive(start, Date.UTC(2026, 8, 12, 13, 0, 0))).toBe(false);
-    const lateStart = Date.UTC(2026, 8, 12, 15, 50, 0);
-    expect(getRunDeadline(lateStart)).toBe(Date.UTC(2026, 8, 12, 16, 0, 0));
-    expect(getEventCloseReason(Date.UTC(2026, 8, 12, 15, 59, 59))).toBeNull();
-    expect(getEventCloseReason(ISACA_EVENT.deadlineMs)).toBe("event_closed");
+    const lateStart = Date.UTC(2036, 8, 12, 15, 50, 0);
+    expect(getRunDeadline(lateStart)).toBe(lateStart + ISACA_EVENT.durationMs);
+    expect(getEventCloseReason(Date.UTC(2036, 8, 12, 15, 59, 59))).toBeNull();
+    expect(getEventCloseReason(Date.now())).toBeNull();
   });
 
-  it("permits a fresh run only after a failed attempt and before event close", () => {
-    const beforeClose = Date.UTC(2026, 8, 12, 15, 59, 59);
-    expect(isEventRestartable("failed", beforeClose)).toBe(true);
-    expect(isEventRestartable("active", beforeClose)).toBe(false);
-    expect(isEventRestartable("completed", beforeClose)).toBe(false);
-    expect(isEventRestartable("failed", ISACA_EVENT.deadlineMs)).toBe(false);
+  it("permits a fresh run after failure at any future date", () => {
+    const future = Date.UTC(2036, 8, 12, 15, 59, 59);
+    expect(isEventRestartable("failed", future)).toBe(true);
+    expect(isEventRestartable("active", future)).toBe(false);
+    expect(isEventRestartable("completed", future)).toBe(false);
   });
 });

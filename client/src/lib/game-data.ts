@@ -119,14 +119,14 @@ export const missions: Mission[] = [
   },
   {
     id: "isaca-invitation",
-    code: "EVENT // LIMITED TIME",
+    code: "EVENT // ALWAYS OPEN",
     title: "ISACA Invitation: The One-Hour Control Room",
     eyebrow: "GRC / AUDIT / RISK EVENT",
     difficulty: "EXPERT",
     category: "GRC & Assurance",
     xp: 1000,
     estimatedTime: "1 hour hard limit",
-    description: "A limited-time, server-verified fictional challenge across governance, audit, risk, resilience, secure design and incident response. The first 10 valid finishers secure an ISACA invitation slot.",
+    description: "A permanently available, server-verified fictional challenge across governance, audit, risk, resilience, secure design and incident response. The first 10 valid finishers secure an ISACA invitation slot.",
     skills: ["GRC", "Audit", "Risk", "IAM", "Secure Design", "IR"],
     status: "available",
     learning: {

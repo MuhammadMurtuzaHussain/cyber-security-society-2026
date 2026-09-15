@@ -37,7 +37,7 @@ export const appRouter = router({
     status: publicProcedure.query(async () => ({
       eventKey: ISACA_EVENT.key,
       title: ISACA_EVENT.title,
-      deadlineAt: new Date(ISACA_EVENT.deadlineMs),
+      deadlineAt: null,
       durationMs: ISACA_EVENT.durationMs,
       stageCount: ISACA_EVENT.stageCount,
       attemptsPerStage: ISACA_EVENT.maxAttemptsPerStage,

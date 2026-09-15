@@ -3,7 +3,7 @@ import { createHash } from "crypto";
 export const ISACA_EVENT = {
   key: "isaca-invite-september-2026",
   title: "ISACA Invitation: The One-Hour Control Room",
-  deadlineMs: Date.UTC(2026, 8, 12, 16, 0, 0), // 17:00 Europe/London (BST)
+  deadlineMs: Number.POSITIVE_INFINITY,
   durationMs: 60 * 60 * 1000,
   maxAttemptsPerStage: 3,
   maxInvitationSlots: 10,
@@ -59,7 +59,7 @@ export function getEventCloseReason(now = Date.now()) {
   return null;
 }
 
-/** Failed runs may be restarted with a new seed while the invitation window is open. */
+/** Failed runs may be restarted with a new seed while the event is permanently open. */
 export function isEventRestartable(status: "active" | "completed" | "failed", now = Date.now()) {
   return status === "failed" && !getEventCloseReason(now);
 }
