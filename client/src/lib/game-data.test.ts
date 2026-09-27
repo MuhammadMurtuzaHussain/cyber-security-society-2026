@@ -2,17 +2,21 @@ import { describe, expect, it } from "vitest";
 import { achievements, levelFromXp, missionById, missions, titleForLevel } from "./game-data";
 
 describe("Cyber Security Society game catalog", () => {
-  it("provides five data-driven fictional missions", () => {
-    expect(missions).toHaveLength(5);
+  it("provides nine data-driven fictional missions", () => {
+    expect(missions).toHaveLength(9);
     expect(missions.map((mission) => mission.id)).toEqual([
       "guess-my-password",
       "catch-the-phish",
       "who-hacked-us",
       "broken-website",
       "escape-room",
+      "shell-forensics",
+      "browser-lockdown",
+      "api-auth-lab",
+      "packet-puzzle",
     ]);
     missions.forEach((mission) => {
-      expect(mission.description).toMatch(/fictional|Sarah|student|ACME|ransomware/i);
+      expect(mission.description).toMatch(/fictional|simulated|Sarah|student|ACME|ransomware/i);
       expect(mission.xp).toBeGreaterThan(0);
       expect(mission.learning.defenders.length).toBeGreaterThan(30);
     });
@@ -39,6 +43,10 @@ describe("Cyber Security Society game catalog", () => {
       "digital-detective",
       "web-explorer",
       "ctf-survivor",
+      "shell-operator",
+      "browser-warden",
+      "access-architect",
+      "packet-reader",
     ]));
   });
 });

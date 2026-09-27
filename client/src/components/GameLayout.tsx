@@ -79,7 +79,7 @@ export default function GameLayout({ children, title, eyebrow, actions }: { chil
       {open && <div className="fixed inset-0 z-50 lg:hidden"><button className="absolute inset-0 bg-black/70" aria-label="Close navigation" onClick={() => setOpen(false)} /><div className="relative flex h-full w-[290px] flex-col border-r border-white/[.1] bg-[#0a1020] p-5 shadow-2xl"><div className="flex items-center justify-between"><BrandMark /><button onClick={() => setOpen(false)} aria-label="Close navigation" className="rounded-lg p-2 text-slate-400 hover:bg-white/[.06]"><X className="h-5 w-5" /></button></div><div className="mt-10">{nav}</div></div></div>}
 
       <main className="relative pb-12 lg:ml-[258px]">{children}</main>
-      <footer className="relative border-t border-white/[.07] px-5 py-5 text-center font-mono text-[10px] tracking-[0.12em] text-slate-500 lg:ml-[258px]">FICTIONAL SANDBOX · NO REAL SYSTEMS · LEARN SAFELY <ChevronRight className="mb-0.5 inline h-3 w-3 text-cyan-500" /></footer>
+      <footer className="relative border-t border-white/[.07] px-5 py-5 text-center font-mono text-[10px] tracking-[0.12em] text-slate-500 lg:ml-[258px]">FICTIONAL SANDBOX · NO REAL SYSTEMS · LEARN SAFELY <ChevronRight className="mb-0.5 inline h-3 w-3 text-cyan-500" /> <span className="mx-1 text-slate-700">·</span> BUILT BY <a href="https://www.linkedin.com/in/muhammadmurtuzahussain/" target="_blank" rel="noreferrer" className="text-cyan-300 transition hover:text-cyan-200 hover:underline">MUHAMMAD MURTUZA HUSSAIN</a></footer>
     </div>
   );
 }

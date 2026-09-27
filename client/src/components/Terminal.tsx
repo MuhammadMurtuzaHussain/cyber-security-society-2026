@@ -1,12 +1,16 @@
 import { FormEvent, useState } from "react";
 
 const commands: Record<string, string[]> = {
-  help: ["Available commands: help, ls, pwd, whoami, logs, scan, decrypt, clear"],
-  ls: ["evidence/  inbox/  readme.txt  recovery-key.enc"],
+  help: ["Available commands: help, ls, pwd, whoami, logs, scan, headers, cookies, hash, timeline, decrypt, clear"],
+  ls: ["evidence/  inbox/  browser/  captures/  readme.txt  recovery-key.enc"],
   pwd: ["/home/recruit/mission-lab"],
   whoami: ["cyber-recruit (sandbox agent)"],
   logs: ["02:11 failed login: alex", "02:12 failed login: admin", "02:13 login success: admin", "02:14 file transfer: evidence.zip"],
   scan: ["Simulation scan complete.", "No real targets contacted.", "Hint: inspect the local clues, not a network."],
+  headers: ["HTTP/2 200", "content-security-policy: default-src 'self'", "x-frame-options: DENY", "referrer-policy: no-referrer"],
+  cookies: ["session=demo; HttpOnly; Secure; SameSite=Lax", "No third-party cookies in this simulation."],
+  hash: ["sha256(update.sh)=9b1d3f0d9e8c4c9a...", "Known-good baseline=7f2a1b4c...", "Status: mismatch"],
+  timeline: ["03:14 key accepted", "03:16 curl launched by deploy", "03:17 update-check.timer enabled", "03:21 outbound beacon observed"],
   decrypt: ["Decoder online. Try the escape-room message: U0FGRV9NT0RF"],
 };
 
