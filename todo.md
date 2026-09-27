@@ -2,14 +2,10 @@
 
 ## Completed
 
-- Interactive cybersecurity mission platform with fictional, local-only simulations.
-- Server-backed ISACA Invitation event with 15 randomised stages, unique case tags, one-hour run timer, three attempts per stage, Saturday 12 September 2026 17:00 Europe/London cutoff, and first-ten invitation slots.
-- Consent-based student-ID collection for qualifying invitation recipients, with administrator-only claim review and CSV export.
-- Failed ISACA event runs can restart from Stage 01 with a new server-generated case while the event remains open.
-- Desktop and mobile event entry experience validated; production build, TypeScript checking, and unit tests passing.
+The project now ships as a static React/Vite cybersecurity learning experience. It includes five fictional, browser-only missions, local progress persistence, a demo sign-in profile, local mission controls, hash-based navigation, and a GitHub Pages deployment workflow.
+
+The former ISACA event, database schema, server API, OAuth flow, invitation claim handling, student-ID collection, and server-backed administrator features were removed because GitHub Pages cannot execute backend code or provide database storage.
 
 ## Future Enhancements
 
-- Add a configurable data-retention workflow for student IDs.
-- Add a committee settings page for event duration, deadline, and invitation capacity.
-- Build a post-event debrief explaining the principles behind all 15 stages.
+Add more self-contained missions, improve the local progress export/import flow, and optionally add a separate backend later if authenticated competition or shared leaderboards return to the product requirements.
