@@ -2,6 +2,8 @@ import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Route, Router, Switch } from "wouter";
 import { useHashLocation } from "wouter/use-hash-location";
+import { useEffect } from "react";
+import { useLocation } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { GameProvider } from "./contexts/GameContext";
 import { ThemeProvider } from "./contexts/ThemeContext";
@@ -16,6 +18,14 @@ import NotFound from "./pages/NotFound";
 import Profile from "./pages/Profile";
 
 function RouterView() {
+  const [location] = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }, [location]);
+
   return <Switch>
     <Route path="/" component={Home} />
     <Route path="/dashboard" component={Dashboard} />
