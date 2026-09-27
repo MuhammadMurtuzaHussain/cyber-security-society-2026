@@ -4,6 +4,7 @@ import { Activity, Award, BarChart3, ChevronRight, Crosshair, LayoutDashboard, M
 import { useGame } from "@/contexts/GameContext";
 
 const navigation = [
+  { label: "How it works", href: "/how-it-works", icon: Shield },
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { label: "Missions", href: "/missions", icon: Crosshair },
   { label: "Leaderboard", href: "/leaderboard", icon: Trophy },

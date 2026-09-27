@@ -11,6 +11,7 @@ import Achievements from "./pages/Achievements";
 import Admin from "./pages/Admin";
 import Dashboard from "./pages/Dashboard";
 import Home from "./pages/Home";
+import HowItWorks from "./pages/HowItWorks";
 import Leaderboard from "./pages/Leaderboard";
 import MissionPlay from "./pages/MissionPlay";
 import Missions from "./pages/Missions";
@@ -28,6 +29,7 @@ function RouterView() {
 
   return <Switch>
     <Route path="/" component={Home} />
+    <Route path="/how-it-works" component={HowItWorks} />
     <Route path="/dashboard" component={Dashboard} />
     <Route path="/missions" component={Missions} />
     <Route path="/missions/:id" component={MissionPlay} />
